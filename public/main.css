@@ -15,13 +15,20 @@ body {
 section {
 }
 
+article{
+
+}
+
 nav {
   background-color: rgb(38,45,66);
   height: 65px;
   line-height: 65px;
 }
 
-
+.link{
+  background-color: rgb(38,45,66);
+  color: white;
+}
 
 .logo {
   color: white;

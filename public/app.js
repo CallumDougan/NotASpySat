@@ -3,7 +3,7 @@ var initialize = function(){
 
   // VARIABLES FOR NAVIGATION
   var mapLink = document.getElementById('map-link');
-  var mapView = document.getElementById('map-view')
+  var mapView = document.getElementById('map-view');
 
   var chartLink = document.getElementById('chart-link');
   var chartView = document.getElementById('chart-view');
@@ -52,6 +52,17 @@ var section = document.getElementById('info');
         displayCountry(countryIndex);
       }
     }
+  }
+
+  mapLink.onclick = function(){
+    chartView.style.display = 'none';
+    mapView.style.display = 'block';
+  }
+
+  chartLink.onclick = function(){
+    console.log("I'm clicked");
+    mapView.style.display = 'none';
+    chartView.style.display = 'block';
   }
 
   var displayCountry = function(index){
