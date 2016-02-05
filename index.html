@@ -8,6 +8,9 @@
   <script src='dropdown.js'></script>
   <script src='map.js'></script>
   <script src='geoLocator.js'></script>
+  <script src = 'chart.js'></script>
+  <script src="https://code.highcharts.com/highcharts.js"></script>
+  <script src="https://code.highcharts.com/modules/exporting.js"></script>
 </head>
 <body>
   <header>
@@ -41,7 +44,14 @@
       </select>
     </article>
     <article id = 'chart-view' style = "display: none;">
+    <section id = 'chart'>
     <p>TEST TEST TEST</p>
+    <!-- Chart goes here -->
+    <div id="container" style="min-width: 310px; max-width: 800px; height: 400px; margin: 0 auto"></div>
+    </section>
+    <select id = "chartlist" name = "chartlist">
+    <option selected = "">select chart</option>
+    </select>
     </article>
   </center>
 </body>

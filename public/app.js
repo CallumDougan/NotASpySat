@@ -1,51 +1,81 @@
 var initialize = function(){
   console.log('App started');
 
-  // VARIABLES FOR NAVIGATION
+  // VARIABLES FOR NAVIGATION/LAYOUT
   var mapLink = document.getElementById('map-link');
   var mapView = document.getElementById('map-view');
 
   var chartLink = document.getElementById('chart-link');
   var chartView = document.getElementById('chart-view');
-  console.log('mapLink', mapLink, 'mapView', mapView, 'chartLink', chartLink, 'chartView', chartView);
+
+  var selector = document.getElementById('Countrylist');
+  var section = document.getElementById('info');
 
 
   // VARIABLES FOR MAP
   var countriesUrl = 'https://restcountries.eu/rest/v1';
   var request = new XMLHttpRequest();
-  var dropdown = new Dropdown();
-
-
-// VARIABLES FOR DROPDOWN
-var selector = document.getElementById('Countrylist');
-var section = document.getElementById('info');
-
-
-  // VARIABLES FOR MAP
   var centre = {lat: 0, lng: 0};
   var newMarker = {lat: -40.712784, lng: 74.005941};
   var zoom = 2;
   var icon = 'http://www.jasondenio.com/wp-content/uploads/2014/11/mapmarker.png';
   var map = new Map(centre, zoom, icon);
+  var dropdownCountries = new Dropdown();
 
+  // VARIABLES FOR CHART
+    var chart = new Highcharts.Chart({
+      chart: {
+        type: 'line',
+        renderTo: container
+      },
+      title: {
+        text: "A title"
+      },
+
+      series: [{
+        name: "Up?", 
+        data: [
+        {
+          name: "Fire",
+          y: 74,
+          x: 12,
+          color: "#ffac33  "
+        },
+        {
+          name: "Water",
+          y: 25,
+          x: 6,
+          color: "#73b7ff  ",
+          sliced: true
+        },
+        {
+          name: "Grass",
+          y: 1,
+          x: 2,
+          color: "#00ba2f  "
+        }
+        ]
+      }]
+    });
+    console.log(chart);
+  var dropdownCharts = new Dropdown();
 
   // VARIABLES FOR GEOLOCATOR
-
   var locator = new GeoLocator(map);
 
 
   request.open('GET', countriesUrl);
 
   request.onload = function() {
-    dropdown.buildCountryList(request);
+    dropdownCountries.buildCountryList(request);
   }
 
   selector.onchange = function(){
     var countryName = this.value;
     var countryIndex = null;
 
-    for(index in dropdown.countryNameList){
-      var testCountryName = dropdown.countryNameList[index];
+    for(index in dropdownCountries.countryNameList){
+      var testCountryName = dropdownCountries.countryNameList[index];
       if(testCountryName === countryName){
         var countryIndex = index;
         console.log(countryIndex);
