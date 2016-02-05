@@ -8,11 +8,12 @@ var initialize = function(){
   var chartLink = document.getElementById('chart-link');
   var chartView = document.getElementById('chart-view');
 
-  var selector = document.getElementById('Countrylist');
+  var countrySelector = document.getElementById('Countrylist');
+  var regionSelector = document.getElementById('chartlist')
   var section = document.getElementById('info');
 
 
-  // VARIABLES FOR MAP
+  // VARIABLES FOR MAP/CHART
   var countriesUrl = 'https://restcountries.eu/rest/v1';
   var request = new XMLHttpRequest();
   var centre = {lat: 0, lng: 0};
@@ -21,44 +22,70 @@ var initialize = function(){
   var icon = 'http://www.jasondenio.com/wp-content/uploads/2014/11/mapmarker.png';
   var map = new Map(centre, zoom, icon);
   var dropdownCountries = new Dropdown();
-
-  // VARIABLES FOR CHART
-    var chart = new Highcharts.Chart({
-      chart: {
-        type: 'line',
-        renderTo: container
-      },
+  var dropdownRegions = new Dropdown();
+  var chart = new Highcharts.Chart({
+    chart: {
+      type: 'bar',
+      renderTo: container
+    },
+    title: {
+      text: 'Historic World Population by Region'
+    },
+    subtitle: {
+      text: 'Source: <a href="https://en.wikipedia.org/wiki/World_population">Wikipedia.org</a>'
+    },
+    xAxis: {
+      categories: ['Africa', 'America', 'Asia', 'Europe', 'Oceania'],
       title: {
-        text: "A title"
+        text: null
+      }
+    },
+    yAxis: {
+      min: 0,
+      title: {
+        text: 'Population (millions)',
+        align: 'high'
       },
-
-      series: [{
-        name: "Up?", 
-        data: [
-        {
-          name: "Fire",
-          y: 74,
-          x: 12,
-          color: "#ffac33  "
-        },
-        {
-          name: "Water",
-          y: 25,
-          x: 6,
-          color: "#73b7ff  ",
-          sliced: true
-        },
-        {
-          name: "Grass",
-          y: 1,
-          x: 2,
-          color: "#00ba2f  "
+      labels: {
+        overflow: 'justify'
+      }
+    },
+    tooltip: {
+      valueSuffix: ' millions'
+    },
+    plotOptions: {
+      bar: {
+        dataLabels: {
+          enabled: true
         }
-        ]
-      }]
-    });
-    console.log(chart);
-  var dropdownCharts = new Dropdown();
+      }
+    },
+    legend: {
+      layout: 'vertical',
+      align: 'right',
+      verticalAlign: 'top',
+      x: -40,
+      y: 80,
+      floating: true,
+      borderWidth: 1,
+      backgroundColor: ((Highcharts.theme && Highcharts.theme.legendBackgroundColor) || '#FFFFFF'),
+      shadow: true
+    },
+    credits: {
+      enabled: false
+    },
+    series: [{
+      name: 'Year 1800',
+      data: [107, 31, 635, 203, 2]
+    }, {
+      name: 'Year 1900',
+      data: [133, 156, 947, 408, 6]
+    }, {
+      name: 'Year 2012',
+      data: [1052, 954, 4250, 740, 38]
+    }]
+  });
+console.log(chart);
 
   // VARIABLES FOR GEOLOCATOR
   var locator = new GeoLocator(map);
@@ -68,9 +95,10 @@ var initialize = function(){
 
   request.onload = function() {
     dropdownCountries.buildCountryList(request);
+    dropdownRegions.buildRegionList(request);
   }
 
-  selector.onchange = function(){
+  countrySelector.onchange = function(){
     var countryName = this.value;
     var countryIndex = null;
 
@@ -80,6 +108,18 @@ var initialize = function(){
         var countryIndex = index;
         console.log(countryIndex);
         displayCountry(countryIndex);
+      }
+    }
+  }
+  regionSelector.onchange = function(){
+    var regionName = this.value;
+    var regionIndex = null;
+
+    for(index in dropdownRegions.regionNameList){
+      var testRegionName = dropdownRegions.regionNameList[index];
+      if(testRegionName === regionName){
+        var regionIndex = index;
+        console.log(regionIndex);
       }
     }
   }
